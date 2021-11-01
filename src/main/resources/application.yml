@@ -1,0 +1,34 @@
+server:
+  port: 8001
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: rabbit-producer
+  http:
+    encoding:
+      charset: UTF-8
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: NON_NULL
+    time-zone: GMT+8
+  rabbitmq:
+    host: 101.37.76.215
+    port: 5672
+    username: admin
+    password: admin
+    # 使用启用消息确认模式
+    publisher-confirms: true
+
+    virtual-host: my_vhost
+  mail:
+    host: smtp.163.com
+    username: jinkanghe@163.com
+    password: EJBKKYFXHWOKYMVE
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+          enable: true
+          required: true
