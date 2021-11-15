@@ -1,6 +1,6 @@
 package com.rabbitmq.mail.task;
 
-import com.rabbitmq.mail.config.RabbitMQConfig;
+import com.rabbitmq.mail.config.FanoutConfig;
 import com.rabbitmq.mail.producer.MailProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +24,8 @@ public class MailTask {
     @Autowired
     private MailProducer mailProducer;
 
-    @Scheduled(cron = "*/30 * * * * ?")
-    public void sendMail() {
+    //@Scheduled(cron = "*/30 * * * * ?")
+    /*public void sendMail() {
         Date date = new Date();
         DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.CHINA);
         String now = df.format(date);
@@ -33,8 +33,56 @@ public class MailTask {
         SimpleMailMessage mailMessage = mailProducer.generateMail(String.format(SUBJECT_PREFIX, now)
                 , "jinkanghe@163.com"
                 , "这是一封测试内容》》》" + now);
-        rabbitTemplate.convertAndSend(RabbitMQConfig.MAIL_TOPIC_EXCHANGE
+        rabbitTemplate.convertAndSend(FanoutConfig.MAIL_TOPIC_EXCHANGE
                 , "mail", mailMessage);
-        logger.info("发送邮件" + mailMessage.getSubject());
+        logger.info("发送邮件{}", mailMessage.getSubject());
+    }*/
+
+
+   // @Scheduled(cron = "*/30 * * * * ?")
+    /*public void sendTopicPound(){
+        rabbitTemplate.convertAndSend("topicExchange"
+                , "mail.tt.ff", getMessageBody("topic#"));
+    }*/
+
+    //@Scheduled(cron = "*/50 * * * * ?")
+    /*public void sendTopicAsterisk(){
+        rabbitTemplate.convertAndSend("topicExchange"
+                , "mail.yy", getMessageBody("topic*"));
+    }*/
+
+
+
+
+    @Scheduled(cron = "*/20 * * * * ?")
+    public void sendDirect(){
+        rabbitTemplate.convertAndSend("directExchange"
+                , "directQueueAKey", getMessageBody("directMessageA"));
+        rabbitTemplate.convertAndSend("directExchange"
+                , "directQueueBKey", getMessageBody("directMessageB"));
+        rabbitTemplate.convertAndSend("directExchange"
+                , "directQueueCKey", getMessageBody("directMessageC"));
+    }
+
+
+
+
+    @Scheduled(cron = "*/37 * * * * ?")
+    public void sendFanoutA(){
+        rabbitTemplate.convertAndSend("fanoutExchange"
+                , "rasdsndomds", getMessageBody("fanoutMessageA"));
+    }
+
+    @Scheduled(cron = "*/44 * * * * ?")
+    public void sendFanoutB(){
+        rabbitTemplate.convertAndSend("fanoutExchange"
+                , "raneseqwedomsd", getMessageBody("fanoutMessageB"));
+    }
+
+    private String getMessageBody(String mode){
+        Date date = new Date();
+        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.CHINA);
+        String now = df.format(date);
+        return mode + "===>" + now;
     }
 }

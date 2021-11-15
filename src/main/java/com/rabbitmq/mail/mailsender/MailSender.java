@@ -14,7 +14,7 @@ import java.util.Date;
 @Component
 public class MailSender {
 
-    private static final Logger logger= LoggerFactory.getLogger(MailSender.class);
+    private static final Logger logger = LoggerFactory.getLogger(MailSender.class);
 
     @Autowired
     private JavaMailSender mailSender;
@@ -24,7 +24,7 @@ public class MailSender {
 
     public void sendMail(SimpleMailMessage message) {
         mailSender.send(message);
-        logger.debug(message.getSubject() + "邮件已发送");
+        logger.debug("{}邮件已发送", message.getSubject());
     }
 
 
