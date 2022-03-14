@@ -23,8 +23,8 @@ spring:
     virtual-host: my_vhost
   mail:
     host: smtp.163.com
-    username: jinkanghe@163.com
-    password: EJBKKYFXHWOKYMVE
+    username: [username]
+    password: [password]
     properties:
       mail:
         smtp:
