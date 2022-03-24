@@ -13,14 +13,19 @@ spring:
     default-property-inclusion: NON_NULL
     time-zone: GMT+8
   rabbitmq:
-    host: 101.37.76.215
+    host: 121.5.129.238
     port: 5672
-    username: admin
-    password: admin
+    username: guest
+    password: myqqmimaishjk123
     # 使用启用消息确认模式
     publisher-confirms: true
 
-    virtual-host: my_vhost
+    virtual-host: /
+    listener:
+      simple:
+        acknowledge-mode: manual
+
+
   mail:
     host: smtp.163.com
     username: [username]

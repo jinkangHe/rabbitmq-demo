@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DirectConfig {
 
-    @Bean("directExchange")
+    @Bean("directExchangeA")
     public Exchange fanoutExchange(){
         return ExchangeBuilder.directExchange("directExchange").durable(true).build();
     }
@@ -24,12 +24,12 @@ public class DirectConfig {
     }
 
     @Bean
-    public Binding directExchangeA(@Qualifier("directQueueA")Queue queue, @Qualifier("directExchange")DirectExchange exchange) {
+    public Binding directExchangeA(@Qualifier("directQueueA")Queue queue, @Qualifier("directExchangeA")DirectExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with("directQueueAKey");
     }
 
     @Bean
-    public Binding directExchangeB(@Qualifier("directQueueB")Queue queue, @Qualifier("directExchange")DirectExchange exchange) {
+    public Binding directExchangeB(@Qualifier("directQueueB")Queue queue, @Qualifier("directExchangeA")DirectExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with("directQueueBKey");
     }
 }
