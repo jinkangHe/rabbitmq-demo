@@ -29,7 +29,7 @@ Exchange有四种模式
 1. Direct Exchange,这个模式需要routing key完全匹配，才能正确的发送数据。
 2. Fanout Exchange,这个模式下，交换机会将消息发送到所有与其绑定的队列上，类似广播
 3. Topic Exchange,这个模式下，交换机会根据通配符的方式来进行匹配，通配符有两种："*" 、 "#"。通配符前面必须要加上"."符号
-   + `*` 符号：有且只匹配一个词。比如 user.*可以匹配到"a.name"、"a.age"，但是匹配不了"user.name.firstname"。
+   + `*` 符号：有且只匹配一个词。比如 user.*可以匹配到"user.name"、"user.age"，但是匹配不了"user.name.firstname"。
    + `#` 符号：匹配一个或多个词。比如"rabbit.#"既可以匹配到"rabbit.a.b"、"rabbit.a"，也可以匹配到"rabbit.a.b.c"。
 4. Headers Exchange,它的路由不是用routingKey进行路由匹配，而是在匹配请求头中所带的键值进行路由
 

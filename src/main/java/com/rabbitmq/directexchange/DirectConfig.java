@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Configuration
-public class DirectExchangeConfig {
+public class DirectConfig {
     //创建一个directExchange
     @Bean("directExchange")
     public Exchange directExchange(){
