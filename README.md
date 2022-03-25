@@ -31,7 +31,7 @@ Exchange有四种模式
 3. Topic Exchange,这个模式下，交换机会根据通配符的方式来进行匹配，通配符有两种："*" 、 "#"。【com.rabbitmq.topic】
    + `*` 符号：有且只匹配一个词。比如 user.*可以匹配到"user.name"、"user.age"，但是匹配不了"user.name.firstname"。
    + `#` 符号：匹配一个或多个词。比如"rabbit.#"既可以匹配到"rabbit.a.b"、"rabbit.a"，也可以匹配到"rabbit.a.b.c"。
-4. Headers Exchange,它的路由不是用routingKey进行路由匹配，而是在匹配请求头中所带的键值进行路由 【com.rabbitmq.headers】
+4. Headers Exchange,它的路由不是用routingKey进行路由匹配，而是在匹配请求头中所带的键值进行路由 ![binaryTree](https://github.com/jinkangHe/rabbitmq-mail/blob/026146d0699735de0f0e1dbc57f8f637efe0d8bd/src/main/java/com/rabbitmq/headers/HeaderConfig.java)【com.rabbitmq.headers】
 
 ## 编码实现
 
