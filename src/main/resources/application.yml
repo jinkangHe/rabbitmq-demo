@@ -5,6 +5,9 @@ server:
 spring:
   application:
     name: rabbit-producer
+  profiles:
+    active: prod
+
   http:
     encoding:
       charset: UTF-8
@@ -13,10 +16,10 @@ spring:
     default-property-inclusion: NON_NULL
     time-zone: GMT+8
   rabbitmq:
-    host: 121.5.129.238
+    host: localhost
     port: 5672
     username: guest
-    password: myqqmimaishjk123
+    password: guest
     # 使用启用消息确认模式
     publisher-confirms: true
 
