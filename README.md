@@ -17,7 +17,7 @@
 + Queue：消息队列，存储消息的队列。
 + Producer：消息生产者。生产方客户端将消息同交换机路由发送到队列中。
 + Consumer：消息消费者。消费队列中存储的消息。
-+ ![binaryTree](rabbitmq.png "rabbitmq")
++ ![binaryTree](./assets/rabbitmq.png"rabbitmq")
 
 **生产者主要是和交换机打交道，消费者主要是和队列打交道**
 
@@ -158,5 +158,39 @@ channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
             }
             logger.error("{}消息未消费", new String(message.getBody()));
         }
+    }
+```
+
+### 死信交换机
+
+死信交换机，Dead-Letter-Exchange 即 DLX。
+
+死信交换机用来接收死信消息（Dead Message）的，那什么是死信消息呢？一般消息变成死信消息有如下几种情况：
+
+* 消息被拒绝(Basic.Reject/Basic.Nack) ，井且设置requeue 参数为false（即不会再重新投递到原来的队列）
+* 消息过期
+* 队列达到最大长度
+
+当消息在一个队列中变成了死信消息后，此时就会被发送到 DLX，绑定 DLX 的消息队列则称为死信队列。
+
+DLX 本质上也是一个普普通通的交换机，我们可以为任意队列指定 DLX，当该队列中存在死信时，RabbitMQ 就会自动的将这个死信发布到 DLX 上去，进而被路由到另一个绑定了 DLX 的队列上（即死信队列）
+
+![binaryTree](./assets/死信队列流程图.png)
+
+配置：
+
+创建队列的时候传入参数**x-dead-letter-exchange**属性即可指定该队列的消息成为死信消息之后发送到哪个交换机。
+
+同时也可以使用**x-dead-letter-routing-key**指定routeingKey
+
+【com.rabbitmq.dlx】
+
+```java
+ @Bean("normalQueue")
+    public Queue normalQueue() {
+        return QueueBuilder.durable("normalQueue")
+                .withArgument("x-dead-letter-exchange", "dlxExchange") //指定死信发送到哪个交换机（相当于绑定一个死信交换机）
+                .withArgument("x-dead-letter-routing-key", "dlx")
+                .build();
     }
 ```
