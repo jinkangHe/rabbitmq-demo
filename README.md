@@ -17,7 +17,7 @@
 + Queue：消息队列，存储消息的队列。
 + Producer：消息生产者。生产方客户端将消息同交换机路由发送到队列中。
 + Consumer：消息消费者。消费队列中存储的消息。
-+ ![binaryTree](./assets/rabbitmq.png"rabbitmq")
++ ![binaryTree](./assets/rabbitmq.png)
 
 **生产者主要是和交换机打交道，消费者主要是和队列打交道**
 
