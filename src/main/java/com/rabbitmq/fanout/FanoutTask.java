@@ -1,4 +1,4 @@
-package com.rabbitmq.topicexchange;
+package com.rabbitmq.fanout;
 
 import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
@@ -18,32 +18,26 @@ import java.io.IOException;
  * @date 2022/3/24 15:36
  */
 @Component
-public class TopicTask {
-    private static final Logger logger = LoggerFactory.getLogger(TopicTask.class);
+public class FanoutTask {
+    private static final Logger logger = LoggerFactory.getLogger(FanoutTask.class);
     private static Integer index = 0;
 
     @Autowired
     RabbitTemplate rabbitTemplate;
 
-    @Scheduled(cron = "*/14 * * * * ?")
-    public void topicTaskProducer() {
+    @Scheduled(cron = "*/40 * * * * ?")
+    public void FanoutTaskProducer() {
         //实验组
-        logger.info("TopicTaskProducer发送消息: {}", index);
-        //queueCInTopicExchange 设置了 routingKey为"summer.#" 所以可以收到下面两条
-        rabbitTemplate.convertAndSend("topicExchange","summer.a",  "topic类型 summer.a" + index);
-        rabbitTemplate.convertAndSend("topicExchange","summer.a.b",  "topic类型 summer.a.b" + index);
-
-        //queueDInTopicExchange 设置了 routingKey为"autumn.*" 所以只能收到第一条
-        rabbitTemplate.convertAndSend("topicExchange","autumn.a",  "topic类型 autumn.a" + index);
-        rabbitTemplate.convertAndSend("topicExchange","autumn.a.b",  "topic类型 autumn.a.b" + index);
-
+        logger.info("FanoutTaskProducer发送消息: {}", index);
+        //routingKey不管写什么都可以
+        rabbitTemplate.convertAndSend("fanoutExchange","fanoutExchange",  "广播类型消息" + index);
         index++;
     }
 
     //指定监听队列
-    @RabbitListener(queues = {"queueCInTopicExchange"})
-    public void consumerForQueueCInFanoutExchange(Message message, Channel channel) {
-        logger.info("consumerForQueueCInFanoutExchange收到消息：{}", new String(message.getBody()));
+    @RabbitListener(queues = {"queueAInFanoutExchange"})
+    public void consumerForQueueAInFanoutExchange(Message message, Channel channel) {
+        logger.info("consumerForQueueAInFanoutExchange收到消息：{}", new String(message.getBody()));
         try {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (IOException e) {
@@ -56,9 +50,9 @@ public class TopicTask {
     }
 
     //指定监听队列
-    @RabbitListener(queues = {"queueDInTopicExchange"})
-    public void consumerForQueueDInFanoutExchange(Message message, Channel channel) {
-        logger.info("consumerForQueueDInFanoutExchange收到消息：{}", new String(message.getBody()));
+    @RabbitListener(queues = {"queueBInFanoutExchange"})
+    public void consumerForQueueBInFanoutExchange(Message message, Channel channel) {
+        logger.info("consumerForQueueBInFanoutExchange收到消息：{}", new String(message.getBody()));
         try {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (IOException e) {

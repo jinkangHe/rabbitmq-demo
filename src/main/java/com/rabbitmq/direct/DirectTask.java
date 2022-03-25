@@ -1,4 +1,4 @@
-package com.rabbitmq.directexchange;
+package com.rabbitmq.direct;
 
 import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class DirectTask {
     @Autowired
     RabbitTemplate rabbitTemplate;
 
-    @Scheduled(cron = "*/5 * * * * ?")
+    @Scheduled(cron = "*/30 * * * * ?")
     public void producer() {
         String suffix = UUID.randomUUID().toString();
         //实验组

@@ -1,4 +1,4 @@
-package com.rabbitmq.fanoutexchange;
+package com.rabbitmq.fanout;
 
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
